@@ -2,6 +2,8 @@
 #include "gtest/internal/gtest-port.h"
 #include "zSearch/zSearch.h"
 
+#include "../XLib/XLib/XLib.h"
+
 using namespace Zen;
 
 #if 0
@@ -20,6 +22,30 @@ TEST(CaseSearch, NonExistingDir)
 {
 	ZSearch search;
 	ZSearch::Results results = search(L"");
+	ASSERT_EQ(results.size(), 0);
+}
+
+class DISABLED_FixtureEmptyDir : public ::testing::Test
+{
+public:
+	DISABLED_FixtureEmptyDir() : m_dirPath(L"MyDir")
+	{
+		//TODO: Create Directory
+	}
+
+	void CleanUp()
+	{
+		//TODO: Remove Directory
+	}
+
+protected:
+	const std::wstring m_dirPath;
+};
+
+TEST_F(DISABLED_FixtureEmptyDir, NonExistingFile)
+{
+	ZSearch search;
+	ZSearch::Results results = search(m_dirPath);
 	ASSERT_EQ(results.size(), 0);
 }
 
