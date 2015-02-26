@@ -1,0 +1,5 @@
+macro(CreateTestProj name fileName)
+    add_executable(${name} ${fileName})
+    target_link_libraries(${name} gmock.lib gtest.lib XLib)
+    add_test(NAME ${name} COMMAND ${name})
+endmacro(CreateTestProj)
