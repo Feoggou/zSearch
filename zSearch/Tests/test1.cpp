@@ -2,6 +2,8 @@
 #include "gtest/internal/gtest-port.h"
 #include "zSearch/zSearch.h"
 
+using namespace Zen;
+
 #if 0
 ZSearch search;
 //set options
@@ -14,13 +16,11 @@ Assert::AreEqual(results.size(), std::size_t(1), L"result size: expected 1");
 Assert::AreEqual(results.back().fullFileName, std::wstring(L"testFile.txt"), L"result name: expected \"testFile.txt\"");
 #endif
 
-TEST(Case_Search, NonExistingFile)
+TEST(CaseSearch, NonExistingDir)
 {
-#if 0
 	ZSearch search;
-	ZSearch::Results = search(L"");
+	ZSearch::Results results = search(L"");
 	ASSERT_EQ(results.size(), 0);
-#endif
 }
 
 #if 0
