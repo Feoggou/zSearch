@@ -1,8 +1,9 @@
 project (zSearch VERSION 0.0.0.0)
 
 option (USE_MYMATH "Use tutorial provided math implementation" ON) 
-        
-configure_file ("${PROJECT_SOURCE_DIR}/Version.h.in" "${PROJECT_SOURCE_DIR}/Version.h")
+
+configure_file ("${PROJECT_SOURCE_DIR}/Version.h.in" "${PROJECT_BINARY_DIR}/Generated/Version.h")
+include_directories("${CMAKE_SOURCE_DIR}/../XLib" "${PROJECT_BINARY_DIR}/Generated")
 
 file(GLOB_RECURSE CPP_FILES "${CMAKE_CURRENT_SOURCE_DIR}" "*.cpp")
 file(GLOB_RECURSE H_FILES "${CMAKE_CURRENT_SOURCE_DIR}" "*.h")
