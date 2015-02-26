@@ -1,5 +1,10 @@
 cmake_minimum_required (VERSION 3.1)
 
+set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}")
+message(STATUS "module path= ${CMAKE_MODULE_PATH}")
+
+include(Macros)
+
 option(PROJ_LIB_TYPES "Use zSearch and XLib as static libs." "STATIC")
 if (NOT PROJ_LIB_TYPES)
     set(PROJ_LIB_TYPES "STATIC")
@@ -8,7 +13,7 @@ message(STATUS "PROJ_LIB_TYPES=${PROJ_LIB_TYPES}")
 
 enable_testing()
 
-project(zSearchApp)
+project(Zen)
 message(STATUS "link libs as: ${PROJ_LIB_TYPES}")
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY    ${CMAKE_BINARY_DIR}/bin)
@@ -21,8 +26,19 @@ if (MSVC)
     message(STATUS "link flags: ${CMAKE_CXX_FLAGS_DEBUG}")
 endif()
 
-add_subdirectory(cZSearch)
+set(GMOCK_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/gmock-1.7.0/include")
+set(GMOCK_LIB_DIR "${CMAKE_BINARY_DIR}/gmock-1.7.0")
+
+set(GTEST_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/gmock-1.7.0/gtest/include")
+set(GTEST_LIB_DIR "${CMAKE_BINARY_DIR}/gmock-1.7.0/gtest")
+
+message(STATUS "GMOCK_INCLUDE_DIR=${GMOCK_INCLUDE_DIR}")
+message(STATUS "GTEST_INCLUDE_DIR=${GTEST_INCLUDE_DIR}")
+message(STATUS "GMOCK_LIB_DIR=${GMOCK_LIB_DIR}")
+message(STATUS "GTEST_LIB_DIR=${GTEST_LIB_DIR}")
+
+add_subdirectory(gmock-1.7.0)
+add_subdirectory(XLib)
 add_subdirectory(zSearch)
-add_subdirectory(Tests)
 
 # include(CTest)
