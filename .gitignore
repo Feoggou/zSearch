@@ -26,3 +26,6 @@
 *.exe
 *.out
 *.app
+
+# XLib has its own git repo
+XLib
