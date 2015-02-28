@@ -14,7 +14,6 @@ message(STATUS "PROJ_LIB_TYPES=${PROJ_LIB_TYPES}")
 enable_testing()
 
 project(Zen)
-message(STATUS "link libs as: ${PROJ_LIB_TYPES}")
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY    ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY    ${CMAKE_BINARY_DIR}/bin)
