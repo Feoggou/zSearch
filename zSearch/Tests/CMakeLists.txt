@@ -12,11 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-project(zSearchTests)
-
 InitExe()
 
-set(G_INCLUDE_DIRS "${CMAKE_SOURCE_DIR}/ZSearch")
-set(G_LINK_TARGETS ${G_LINK_TARGETS} zSearch XLib)
+list(APPEND G_INCLUDE_DIRS "${CMAKE_SOURCE_DIR}/zSearch" "${CMAKE_SOURCE_DIR}/XLib")
+list(APPEND G_LINK_TARGETS zSearch XLib)
 
 CreateTests(zSearch_)

@@ -14,7 +14,7 @@
 
 macro(_Init isLibrary)
     message(STATUS "PROJECT: ${PROJECT_NAME}")
-    set(G_INCLUDE_DIRS)
+    set(G_INCLUDE_DIRS ${PROJECT_SOURCE_DIR})
     set(G_LINK_DIRS)
     set(G_LINK_TARGETS)
     set(G_IS_LIBRARY ${isLibrary})
@@ -36,25 +36,46 @@ macro(_CreateTestProj name fileName)
 endmacro(_CreateTestProj)
 
 macro(CreateTests prefix)
-    include_directories("${GTEST_INCLUDE_DIR}" "${GMOCK_INCLUDE_DIR}" ${G_INCLUDE_DIRS})
-    link_directories("${GTEST_LIB_DIR}" "${GMOCK_LIB_DIR}")
+    list(APPEND G_INCLUDE_DIRS "${GTEST_INCLUDE_DIR}" "${GMOCK_INCLUDE_DIR}")
+    list(APPEND G_LINK_DIRS "${GTEST_LIB_DIR}" "${GMOCK_LIB_DIR}")
 
-    file(GLOB_RECURSE CPP_FILES "${CMAKE_CURRENT_SOURCE_DIR}" "*.cpp")
+    include_directories(${G_INCLUDE_DIRS})
+    link_directories(${G_LINK_DIRS})
+
+    file(GLOB CPP_FILES "${CMAKE_CURRENT_SOURCE_DIR}" "*.cpp")
     source_group("Test" FILES ${CPP_FILES})
 
     foreach(curItem ${CPP_FILES})
-        get_filename_component(displayName "${curItem}" NAME_WE)
-        _CreateTestProj("${prefix}${displayName}" ${curItem})
+        if (NOT IS_DIRECTORY "${curItem}")
+            get_filename_component(displayName "${curItem}" NAME_WE)
+            _CreateTestProj("${prefix}${displayName}" ${curItem})
+        endif()
     endforeach()
 endmacro(CreateTests)
 
 macro (CreateProject name)
     configure_file ("${PROJECT_SOURCE_DIR}/Version.h.in" "${PROJECT_BINARY_DIR}/Generated/Version.h")
-    include_directories("${PROJECT_BINARY_DIR}/Generated" ${G_INCLUDE_DIRS})
 
-    file(GLOB_RECURSE CPP_FILES "${PROJECT_SOURCE_DIR}" "*.cpp")
-    file(GLOB_RECURSE H_FILES "${PROJECT_SOURCE_DIR}" "*.h")
-    source_group("Code" FILES ${CPP_FILES} ${H_FILES})
+    if (WIN32)
+	set(platformDir "Win")
+    elseif(UNIX AND NOT APPLE)
+	set(platformDir "Linux")
+    endif()
+
+    list(APPEND G_INCLUDE_DIRS "${platformDir}" "${PROJECT_BINARY_DIR}/Generated")
+    include_directories(${G_INCLUDE_DIRS})
+    link_directories(${G_LINK_DIRS})
+
+    file(GLOB cppFiles "*.cpp")
+    file(GLOB hFiles "*.h")
+    source_group("Code" FILES ${cppFiles} ${hFiles})
+
+    file(GLOB platfromCppFiles "${platformDir}/*.cpp")
+    file(GLOB platfromHFiles "${platformDir}/*.h")
+    source_group("Code/${platformDir}" FILES ${platfromCppFiles} ${platfromHFiles})
+
+    set(srcFiles ${cppFiles} ${hFiles} ${platfromCppFiles} ${platfromHFiles})
+    message(STATUS "files: ${srcFiles}")
     
     set(todoFile)
     
@@ -64,10 +85,10 @@ macro (CreateProject name)
 
     if(${G_IS_LIBRARY})
         message(STATUS "building ${name} libray as: ${PROJ_LIB_TYPES}")
-        add_library(${name} ${PROJ_LIB_TYPES} ${CPP_FILES} ${H_FILES} ${todoFile})
+	add_library(${name} ${PROJ_LIB_TYPES} ${srcFiles} ${todoFile})
     else()
         message(STATUS "building exe ${name}")
-        add_executable(${name} ${CPP_FILES} ${H_FILES})
-        target_link_libraries(${name} ${G_LINK_DIRS})
+	add_executable(${name} ${srcFiles})
+	target_link_libraries(${name} ${G_LINK_TARGETS})
     endif()
 endmacro(CreateProject)

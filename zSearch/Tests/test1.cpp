@@ -17,8 +17,7 @@
 #include "gmock/gmock.h"
 #include "gtest/internal/gtest-port.h"
 #include "zSearch/zSearch.h"
-
-#include "../XLib/XLib/XLib.h"
+#include "XLib/XLib.h"
 
 using namespace Zen;
 
@@ -31,20 +30,20 @@ std::vector<ZResultItem> results = search(L"localDirName");
 
 Assert::AreEqual(results.size(), std::size_t(1), L"result size: expected 1");
 //TODO: or displayName
-Assert::AreEqual(results.back().fullFileName, std::wstring(L"testFile.txt"), L"result name: expected \"testFile.txt\"");
+Assert::AreEqual(results.back().fullFileName, std::tstring(L"testFile.txt"), L"result name: expected \"testFile.txt\"");
 #endif
 
 TEST(CaseSearch, NonExistingDir)
 {
 	ZSearch search;
-	ZSearch::Results results = search(L"");
+    ZSearch::Results results = search(T(""));
 	ASSERT_EQ(results.size(), 0);
 }
 
 class DISABLED_FixtureEmptyDir : public ::testing::Test
 {
 public:
-	DISABLED_FixtureEmptyDir() : m_dirPath(L"MyDir")
+    DISABLED_FixtureEmptyDir() : m_dirPath(T("MyDir"))
 	{
 		//TODO: Create Directory
 	}
@@ -55,7 +54,7 @@ public:
 	}
 
 protected:
-	const std::wstring m_dirPath;
+    const std::tstring m_dirPath;
 };
 
 TEST_F(DISABLED_FixtureEmptyDir, NonExistingFile)

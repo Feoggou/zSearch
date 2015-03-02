@@ -18,7 +18,7 @@
 
 using namespace Zen;
 
-ZSearch::Results ZSearch::operator()(const std::wstring& path)
+ZSearch::Results ZSearch::operator()(const std::tstring& path)
 {
 	Results r;
 

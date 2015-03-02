@@ -17,12 +17,14 @@
 #pragma once
 
 #include <vector>
+#include <string>
+#include "XLib/XLib.h"
 
 namespace Zen
 {
 	struct SearchResultItem
 	{
-		std::wstring fullName;
+        std::tstring fullName;
 	};
 
 	class ZSearch
@@ -30,6 +32,6 @@ namespace Zen
 	public:
 		typedef std::vector<SearchResultItem> Results;
 
-		Results operator()(const std::wstring& path);
+        Results operator()(const std::tstring& path);
 	};
 }

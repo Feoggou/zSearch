@@ -16,7 +16,9 @@
 
 #include "gmock/gmock.h"
 
-void main()
+int main()
 {
-	ASSERT_EQ(1, 1);
+    //ASSERT_EQ(1, 1);
+
+    return 0;
 }
