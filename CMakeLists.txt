@@ -39,6 +39,10 @@ if (MSVC)
     message(STATUS "link flags: ${CMAKE_CXX_FLAGS_DEBUG}")
 endif()
 
+if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --std=c++11")
+endif()
+
 set(GMOCK_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/gmock-1.7.0/include")
 set(GMOCK_LIB_DIR "${CMAKE_BINARY_DIR}/bin")
 
