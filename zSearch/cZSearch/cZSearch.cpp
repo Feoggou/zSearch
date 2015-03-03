@@ -14,7 +14,13 @@
 *  limitations under the License.
 */
 
-int main(int argc, char* argv[])
+#include "zSearch/zSearch.h"
+#include "XLib/XLib.h"
+
+int main(int argc, tchar* argv[])
 {
-	return 0;
+	Zen::ZSearch search;
+	Zen::ZSearch::Results results = search(T("folder"));
+
+	return results.size();
 }

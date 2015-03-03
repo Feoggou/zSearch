@@ -16,6 +16,7 @@ project (cZSearch VERSION 0.0.0.0)
 
 InitExe()
 
-list(APPEND G_LINK_TARGETS zSearch)
+list(APPEND G_INCLUDE_DIRS "${CMAKE_SOURCE_DIR}/zSearch" "${CMAKE_SOURCE_DIR}/XLib")
+list(APPEND G_LINK_TARGETS zSearch XLib)
 
 CreateProject(cZSearch)

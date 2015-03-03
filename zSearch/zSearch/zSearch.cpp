@@ -15,12 +15,21 @@
 */
 
 #include "zSearch.h"
+#include "XLib/Dir.h"
+
+#include <iostream>
 
 using namespace Zen;
 
 ZSearch::Results ZSearch::operator()(const std::tstring& path)
 {
 	Results r;
+
+	std::cout << "ZSearch::operator(): no results\n";
+
+	Dir dir = Zen::Dir::GetCurrent();
+	std::tstring str = dir.FullPath();
+	std::wcout << L"Current directory = " << dir.FullPath() << std::endl;
 
 	return r;
 }
