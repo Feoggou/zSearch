@@ -1,0 +1,6 @@
+language: cpp
+compiler:
+  - gcc
+  - clang
+# Change this to your needs. NOTE: you can use a bash script ( e.g. ./ci_script.sh )
+script: cmake
