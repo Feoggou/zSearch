@@ -15,7 +15,7 @@
 */
 
 #include "zSearch/zSearch.h"
-#include "XLib/XLib.h"
+#include "zLib/zLib.h"
 
 int main(int argc, tchar* argv[])
 {

@@ -27,5 +27,5 @@
 *.out
 *.app
 
-# XLib has its own git repo
-# XLib
+# zLib has its own git repo
+zLib

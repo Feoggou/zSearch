@@ -19,7 +19,7 @@ message(STATUS "module path= ${CMAKE_MODULE_PATH}")
 
 include(Macros)
 
-option(PROJ_LIB_TYPES "Use zSearch and XLib as static libs." "STATIC")
+option(PROJ_LIB_TYPES "Use zSearch and zLib as static libs." "STATIC")
 if (NOT PROJ_LIB_TYPES)
     set(PROJ_LIB_TYPES "STATIC")
 endif()
@@ -52,7 +52,7 @@ if ("${PROJ_LIB_TYPES}" STREQUAL "STATIC")
     add_subdirectory(gmock-1.7.0)
 endif()
 
-add_subdirectory(XLib)
+add_subdirectory(zLib)
 add_subdirectory(zSearch)
 
 # include(CTest)

@@ -36,7 +36,7 @@
 
 #include <vector>
 #include <string>
-#include "XLib/XLib.h"
+#include "zLib/zLib.h"
 
 namespace Zen
 {

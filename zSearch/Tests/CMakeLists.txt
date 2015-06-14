@@ -14,7 +14,7 @@
 
 InitExe()
 
-list(APPEND G_INCLUDE_DIRS "${CMAKE_SOURCE_DIR}/zSearch" "${CMAKE_SOURCE_DIR}/XLib")
-list(APPEND G_LINK_TARGETS zSearch XLib)
+list(APPEND G_INCLUDE_DIRS "${CMAKE_SOURCE_DIR}/zSearch" "${CMAKE_SOURCE_DIR}/zLib")
+list(APPEND G_LINK_TARGETS zSearch zLib)
 
 CreateTests(zSearch_)

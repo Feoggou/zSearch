@@ -17,7 +17,7 @@
 #include "gmock/gmock.h"
 #include "gtest/internal/gtest-port.h"
 #include "zSearch/zSearch.h"
-#include "XLib/XLib.h"
+#include "zLib/zLib.h"
 
 using namespace Zen;
 

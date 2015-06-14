@@ -38,7 +38,7 @@ macro(_CreateTestProj name fileName)
     SetLinkFlags()
     message(STATUS "building test: ${name}")
     add_executable(${name} ${fileName})
-    target_link_libraries(${name} gmock gmock_main gtest gtest_main XLib ${G_LINK_TARGETS})
+    target_link_libraries(${name} gmock gmock_main gtest gtest_main zLib ${G_LINK_TARGETS})
     add_test(NAME ${name} COMMAND ${name})
 endmacro(_CreateTestProj)
 

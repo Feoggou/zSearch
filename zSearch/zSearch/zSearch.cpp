@@ -15,7 +15,7 @@
 */
 
 #include "zSearch.h"
-#include "XLib/Dir.h"
+#include "zLib/Dir.h"
 
 #include <iostream>
 
