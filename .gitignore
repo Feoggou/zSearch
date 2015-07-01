@@ -26,6 +26,3 @@
 *.exe
 *.out
 *.app
-
-# zLib has its own git repo
-zLib
