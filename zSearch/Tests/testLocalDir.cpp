@@ -48,7 +48,7 @@ public:
 	{
 	}
 
-private:
+protected:
 	Zen::Dir m_dir;
 };
 
@@ -61,22 +61,16 @@ TEST_F(TestLocalDir, DISABLED_FindOneItem_CaseSensitive)
 
 TEST_F(TestLocalDir, FindOneItem_InCurrentDirectory)
 {
-	FAIL();
+    m_dir.Create("OneItem");
 
-#if 0
-	m_dir.Create("OneItem");
-
+    //no options - using default ones.
 	Zen::ZSearch search;
-	//set options
-	
+    Zen::ZSearch::Results results = search(m_dir.FullPath());
 
-	Zen::ZSearch::Results results = search();
+    ASSERT_EQ(results.size(), std::size_t(1));
 
-	Assert::AreEqual(results.size(), std::size_t(1), L"result size: expected 1");
-
-	//TODO: or displayName
-	Assert::AreEqual(results.back().fullFileName, std::tstring(L"testFile.txt"), L"result name: expected \"testFile.txt\"");
-#endif
+    const auto& result = results.back();
+    ASSERT_EQ(result.fullName, std::tstring("OneItem"));
 }
 
 int main(int argc, char* argv[])
