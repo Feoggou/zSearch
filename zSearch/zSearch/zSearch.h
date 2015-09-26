@@ -26,13 +26,23 @@
 
 #if PROJ_LINK_SHARED
 #ifdef ZSEARCH_EXPORTS
-#define ZCSEARCH_API __declspec(dllexport)
+#ifdef WIN32
+#define ZSEARCH_API __declspec(dllexport)
+#elif defined (__linux__)
+#define ZSEARCH_API __attribute__ ((visibility ("default")))
+#endif //WIN32
 #else
-#define ZCSEARCH_API __declspec(dllimport)
-#endif
+/* if ZSEARCH_EXPORTS not defined: */
+#ifdef WIN32
+#define ZSEARCH_API __declspec(dllimport)
+#elif defined(__linux__)
+#define ZSEARCH_API __attribute__ ((visibility ("default")))
+#endif //WIN32
+#endif //ZSEARCH_EXPORTS
 #else
-#define ZCSEARCH_API
-#endif//PROJ_LINK_SHARED
+/*if PROJ_LINK_SHARED is not defined (i.e. building as static lib)*/
+#define ZSEARCH_API
+#endif //PROJ_LINK_SHARED
 
 #include <vector>
 #include <string>
@@ -40,12 +50,12 @@
 
 namespace Zen
 {
-	struct ZCSEARCH_API SearchResultItem
+	struct ZSEARCH_API SearchResultItem
 	{
         std::tstring fullName;
 	};
 
-	class ZCSEARCH_API ZSearch
+	class ZSEARCH_API ZSearch
 	{
 	public:
 		typedef std::vector<SearchResultItem> Results;
