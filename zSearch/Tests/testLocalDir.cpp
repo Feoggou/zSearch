@@ -52,13 +52,6 @@ protected:
 	Zen::Dir m_dir;
 };
 
-TEST_F(TestLocalDir, DISABLED_FindOneItem_CaseSensitive)
-{
-	FAIL();
-	//search.SetOption(ZSearch::FileNameCaseSensitive, true);
-	//search(L"localDir"); -- ??
-}
-
 TEST_F(TestLocalDir, FindOneItem_InCurrentDirectory)
 {
     m_dir.Create("OneItem");
@@ -71,6 +64,13 @@ TEST_F(TestLocalDir, FindOneItem_InCurrentDirectory)
 
     const auto& result = results.back();
     ASSERT_EQ(result.fullName, std::tstring("OneItem"));
+}
+
+TEST_F(TestLocalDir, DISABLED_FindOneItem_CaseSensitive)
+{
+    FAIL();
+    //search.SetOption(ZSearch::FileNameCaseSensitive, true);
+    //search(L"localDir"); -- ??
 }
 
 int main(int argc, char* argv[])
