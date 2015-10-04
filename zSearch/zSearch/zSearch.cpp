@@ -20,6 +20,7 @@
 #include "zLib/Enumerator.h"
 
 #include <iostream>
+#include <memory>
 
 using namespace Zen;
 
@@ -28,7 +29,7 @@ ZSearch::Results ZSearch::operator()(const std::tstring& path)
 	Results r;
 
     Dir dir(path);
-    Enumerator e = dir.CreateEnumerator();
+    std::unique_ptr<Enumerator> e (dir.CreateEnumerator());
 
     /* the issue with this approach above is... you'll have to keep the 'search handle' in Dir,
      * and it will only become disposed when a) Dir is destroyed, which can happen much later;
@@ -37,10 +38,10 @@ ZSearch::Results ZSearch::operator()(const std::tstring& path)
      * If we use an enumerator, instead, we solve these issues.
     */
 
-    while (e.HaveNext()) {
-        SearchResultItem item = e.GetItem();
+    while (e->HaveNext()) {
+        SearchResultItem item = e->GetItem();
         r.push_back(item);
-        e.Advance();
+        e->Advance();
     }
 
     /* THOUGHTS - mocking Enumerator:
