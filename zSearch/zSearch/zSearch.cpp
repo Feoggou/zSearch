@@ -28,8 +28,10 @@ ZSearch::Results ZSearch::operator()(const std::tstring& path)
 {
 	Results r;
 
-    Dir dir(path);
-    std::unique_ptr<Enumerator> e (dir.CreateEnumerator());
+    if (!m_enumerator)
+    {
+        return r;
+    }
 
     /* the issue with this approach above is... you'll have to keep the 'search handle' in Dir,
      * and it will only become disposed when a) Dir is destroyed, which can happen much later;
@@ -38,10 +40,10 @@ ZSearch::Results ZSearch::operator()(const std::tstring& path)
      * If we use an enumerator, instead, we solve these issues.
     */
 
-    while (e->HaveNext()) {
-        SearchResultItem item = e->GetItem();
+    while (m_enumerator->HaveNext()) {
+        SearchResultItem item = m_enumerator->GetItem();
         r.push_back(item);
-        e->Advance();
+        m_enumerator->Advance();
     }
 
     /* THOUGHTS - mocking Enumerator:

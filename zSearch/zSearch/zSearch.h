@@ -59,6 +59,13 @@ namespace Zen
 	public:
 		typedef std::vector<SearchResultItem> Results;
 
+    public:
+        ZSearch() : m_enumerator(nullptr) {}
+        explicit ZSearch(Enumerator& e) { m_enumerator = &e; }
+
         Results operator()(const std::tstring& path);
+
+    private:
+        Enumerator* m_enumerator;
 	};
 }

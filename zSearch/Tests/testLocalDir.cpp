@@ -44,13 +44,34 @@ TEST(CaseSearch, NonExistingDir)
     ASSERT_EQ(results.size(), 0);
 }
 
+class MockEnumerator : public Enumerator
+{
+public:
+    MOCK_CONST_METHOD0(HaveNext, bool());
+    MOCK_METHOD0(Advance, void());
+    MOCK_CONST_METHOD0(GetItem, Item());
+};
+
 TEST(TestLocalDir, FindOneItem_InCurrentDirectory)
 {
-    Dir dir;
+    MockEnumerator e;
+    Enumerator::Item item("OneItem");
+
+    EXPECT_CALL(e, GetItem())
+        .Times(1)
+        .WillOnce(::testing::Return(item));
+
+    EXPECT_CALL(e, HaveNext())
+            .Times(2)
+            .WillOnce(::testing::Return(true))
+            .WillOnce(::testing::Return(false));
+
+    EXPECT_CALL(e, Advance())
+            .Times(1);
 
     //no options - using default ones.
-    ZSearch search;
-    ZSearch::Results results = search(dir.FullPath());
+    ZSearch search(e);
+    ZSearch::Results results = search(T(""));
 
     ASSERT_EQ(results.size(), std::size_t(1));
 
