@@ -37,13 +37,10 @@ ZSearch::Results ZSearch::operator()(const std::tstring& path)
      * If we use an enumerator, instead, we solve these issues.
     */
 
-    for (Enumerator::iterator i = e.begin(); i != e.end(); ++i) {
-        /* if you do it like this, you might be able to use the iterator with the stl functions. std::find(...), etc.*/
-
-        /* no additional search criteria: add i to results. */
-        Enumerator::Item item = *i;
-        SearchResultItem resultItem(item);
-        r.push_back(resultItem);
+    while (e.HaveNext()) {
+        SearchResultItem item = e.GetItem();
+        r.push_back(item);
+        e.Advance();
     }
 
     /* THOUGHTS - mocking Enumerator:
