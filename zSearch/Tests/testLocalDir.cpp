@@ -58,13 +58,6 @@ TEST(TestLocalDir, FindOneItem_InCurrentDirectory)
     ASSERT_EQ(result.fullName, std::tstring("OneItem"));
 }
 
-TEST(TestLocalDir, DISABLED_FindOneItem_CaseSensitive)
-{
-    FAIL();
-    //search.SetOption(ZSearch::FileNameCaseSensitive, true);
-    //search(L"localDir"); -- ??
-}
-
 int main(int argc, char* argv[])
 {
 	::testing::InitGoogleMock(&argc, argv);
