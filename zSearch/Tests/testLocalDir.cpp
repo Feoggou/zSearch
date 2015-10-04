@@ -21,6 +21,8 @@
 #include "zLib/Dir.h"
 #include "zSearch/zSearch.h"
 
+using namespace Zen;
+
 //TODO: we already have this function in zLib_testDir. We ought to make a lib for test utilities.
 std::tstring createUniqueName(const std::tstring& base = T("uniqueName_"))
 {
@@ -41,7 +43,7 @@ public:
 	void SetUp()
 	{
 		std::tstring localDirName = createUniqueName(T("localDirName"));
-		m_dir = Zen::Dir::Create(localDirName);
+        m_dir = Dir::Create(localDirName);
 	}
 
 	void TearDown()
@@ -49,7 +51,7 @@ public:
 	}
 
 protected:
-	Zen::Dir m_dir;
+    Dir m_dir;
 };
 
 TEST_F(TestLocalDir, FindOneItem_InCurrentDirectory)
@@ -57,8 +59,8 @@ TEST_F(TestLocalDir, FindOneItem_InCurrentDirectory)
     m_dir.Create("OneItem");
 
     //no options - using default ones.
-	Zen::ZSearch search;
-    Zen::ZSearch::Results results = search(m_dir.FullPath());
+    ZSearch search;
+    ZSearch::Results results = search(m_dir.FullPath());
 
     ASSERT_EQ(results.size(), std::size_t(1));
 
