@@ -19,8 +19,11 @@
 
 int main(int argc, tchar* argv[])
 {
+#if 0
 	Zen::ZSearch search;
 	Zen::ZSearch::Results results = search(T("folder"));
 
 	return results.size();
+#endif
+    return 0;
 }

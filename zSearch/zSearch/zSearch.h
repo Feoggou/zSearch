@@ -63,7 +63,7 @@ namespace Zen
         ZSearch() : m_enumerator(nullptr) {}
         explicit ZSearch(Enumerator& e) { m_enumerator = &e; }
 
-        Results operator()(const std::tstring& path);
+        Results operator()();
 
     private:
         Enumerator* m_enumerator;
