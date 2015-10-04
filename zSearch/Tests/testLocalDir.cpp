@@ -42,8 +42,8 @@ class TestLocalDir : public ::testing::Test
 public:
 	void SetUp()
 	{
-		std::tstring localDirName = createUniqueName(T("localDirName"));
-        m_dir = Dir::Create(localDirName);
+        //std::tstring localDirName = createUniqueName(T("localDirName"));
+        //m_dir = Dir::Create(localDirName);
 	}
 
 	void TearDown()
@@ -56,7 +56,7 @@ protected:
 
 TEST_F(TestLocalDir, FindOneItem_InCurrentDirectory)
 {
-    m_dir.Create("OneItem");
+    //m_dir.Create("OneItem");
 
     //no options - using default ones.
     ZSearch search;
@@ -66,6 +66,20 @@ TEST_F(TestLocalDir, FindOneItem_InCurrentDirectory)
 
     const auto& result = results.back();
     ASSERT_EQ(result.fullName, std::tstring("OneItem"));
+}
+
+TEST_F(TestLocalDir, DISABLED_FindAnotherItem_InCurrentDirectory)
+{
+    m_dir.Create("AnotherItem");
+
+    //no options - using default ones.
+    ZSearch search;
+    ZSearch::Results results = search(m_dir.FullPath());
+
+    ASSERT_EQ(results.size(), std::size_t(1));
+
+    const auto& result = results.back();
+    ASSERT_EQ(result.fullName, std::tstring("AnotherItem"));
 }
 
 TEST_F(TestLocalDir, DISABLED_FindOneItem_CaseSensitive)
