@@ -38,12 +38,19 @@
 
 #include <vector>
 #include <string>
+
 #include "zLib/zLib.h"
+#include "zLib/Enumerator.h"
 
 namespace Zen
 {
 	struct ZSEARCH_API SearchResultItem
 	{
+        SearchResultItem(const Enumerator::Item& item)
+            : fullName(item.name)
+        {
+        }
+
         std::tstring fullName;
 	};
 

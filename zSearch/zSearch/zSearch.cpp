@@ -15,7 +15,9 @@
 */
 
 #include "zSearch.h"
+
 #include "zLib/Dir.h"
+#include "zLib/Enumerator.h"
 
 #include <iostream>
 
@@ -25,11 +27,33 @@ ZSearch::Results ZSearch::operator()(const std::tstring& path)
 {
 	Results r;
 
-	std::cout << "ZSearch::operator(): no results\n";
+    Dir dir(path);
+    Enumerator e = dir.CreateEnumerator();
 
-	Dir dir = Zen::Dir::GetCurrent();
-	std::tstring str = dir.FullPath();
-//	std::wcout << L"Current directory = " << dir.FullPath() << std::endl;
+    /* the issue with this approach above is... you'll have to keep the 'search handle' in Dir,
+     * and it will only become disposed when a) Dir is destroyed, which can happen much later;
+     * b) Another search happens on the same Dir object - which might destroy the previous search;
+     * c) the user of the class Dir issues 'close handle' manually.
+     * If we use an enumerator, instead, we solve these issues.
+    */
+
+    for (Enumerator::iterator i = e.begin(); i != e.end(); ++i) {
+        /* if you do it like this, you might be able to use the iterator with the stl functions. std::find(...), etc.*/
+
+        /* no additional search criteria: add i to results. */
+        Enumerator::Item item = *i;
+        SearchResultItem resultItem(item);
+        r.push_back(resultItem);
+    }
+
+    /* THOUGHTS - mocking Enumerator:
+     * we can create a 'fake' enumerator, which, when you call begin(), it returns an iterator holding a 'Result' struct.
+     * The single result fills all required struct fields.
+     *
+     * Q: Should we use, instead of a 'struct', a std::map or a std::vector of variants?
+     * or perhaps we should define a 'ItemField' as { Name, (Domain)Type, Value }, where Value is a Variant?
+     * A: No. It is too much burden. "YAGNI". Do the simplest thing that work. Minimalist.
+     */
 
 	return r;
 }
