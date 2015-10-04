@@ -37,6 +37,13 @@ std::tstring createUniqueName(const std::tstring& base = T("uniqueName_"))
 	return uniqueName;
 }
 
+TEST(CaseSearch, NonExistingDir)
+{
+    ZSearch search;
+    ZSearch::Results results = search(T(""));
+    ASSERT_EQ(results.size(), 0);
+}
+
 TEST(TestLocalDir, FindOneItem_InCurrentDirectory)
 {
     Dir dir;
@@ -49,21 +56,6 @@ TEST(TestLocalDir, FindOneItem_InCurrentDirectory)
 
     const auto& result = results.back();
     ASSERT_EQ(result.fullName, std::tstring("OneItem"));
-}
-
-TEST(TestLocalDir, DISABLED_FindAnotherItem_InCurrentDirectory)
-{
-    Dir dir;
-    dir.Create("AnotherItem");
-
-    //no options - using default ones.
-    ZSearch search;
-    ZSearch::Results results = search(dir.FullPath());
-
-    ASSERT_EQ(results.size(), std::size_t(1));
-
-    const auto& result = results.back();
-    ASSERT_EQ(result.fullName, std::tstring("AnotherItem"));
 }
 
 TEST(TestLocalDir, DISABLED_FindOneItem_CaseSensitive)
