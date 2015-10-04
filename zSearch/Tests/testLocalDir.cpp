@@ -79,6 +79,39 @@ TEST(TestLocalDir, FindOneItem_InCurrentDirectory)
     ASSERT_EQ(result.fullName, std::tstring("OneItem"));
 }
 
+TEST(TestLocalDir, FindOneFile_WhenThereAreTwoItems)
+{
+    MockEnumerator e;
+    Enumerator::Item someItem("SomeItem", Enumerator::Item::Unknown);
+    Enumerator::Item fileItem("MyFile", Enumerator::Item::File);
+
+    fileItem.type = Enumerator::Item::File;
+
+    EXPECT_CALL(e, GetItem())
+        .Times(2)
+        .WillOnce(::testing::Return(someItem))
+        .WillOnce(::testing::Return(fileItem));
+
+    EXPECT_CALL(e, HaveNext())
+            .Times(3)
+            .WillOnce(::testing::Return(true))
+            .WillOnce(::testing::Return(true))
+            .WillOnce(::testing::Return(false));
+
+    EXPECT_CALL(e, Advance())
+            .Times(2);
+
+    ZSearch search(e);
+    search.SetTypeFilter(SearchResultItem::File);
+    ZSearch::Results results = search();
+
+    ASSERT_EQ(results.size(), std::size_t(1));
+
+    const auto& result = results.back();
+    ASSERT_EQ(result.fullName, std::tstring("MyFile"));
+    ASSERT_EQ(result.type, SearchResultItem::File);
+}
+
 int main(int argc, char* argv[])
 {
 	::testing::InitGoogleMock(&argc, argv);

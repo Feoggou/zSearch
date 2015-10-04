@@ -40,9 +40,15 @@ ZSearch::Results ZSearch::operator()()
      * If we use an enumerator, instead, we solve these issues.
     */
 
-    while (m_enumerator->HaveNext()) {
+    while (m_enumerator->HaveNext())
+    {
         SearchResultItem item = m_enumerator->GetItem();
-        r.push_back(item);
+
+        if (m_typeFilter == SearchResultItem::Unknown || m_typeFilter == item.type)
+        {
+            r.push_back(item);
+        }
+
         m_enumerator->Advance();
     }
 

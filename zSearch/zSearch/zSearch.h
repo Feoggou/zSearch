@@ -46,12 +46,18 @@ namespace Zen
 {
 	struct ZSEARCH_API SearchResultItem
 	{
+        enum Type { Unknown = 0, File, Directory };
+
+        SearchResultItem() = default;
         SearchResultItem(const Enumerator::Item& item)
             : fullName(item.name)
-        {
-        }
+            , type(Type(item.type))
+        {}
 
+        /* fullName: default value - a) if result = not found / invalid; b) if filter, means 'any' */
         std::tstring fullName;
+        /* type: default value (Unknown) - a) if result = not found / invalid; b) if filter, means 'any' */
+        Type type;
 	};
 
 	class ZSEARCH_API ZSearch
@@ -60,12 +66,18 @@ namespace Zen
 		typedef std::vector<SearchResultItem> Results;
 
     public:
-        ZSearch() : m_enumerator(nullptr) {}
-        explicit ZSearch(Enumerator& e) { m_enumerator = &e; }
+        ZSearch() : m_enumerator(nullptr), m_typeFilter(SearchResultItem::Unknown) {}
+        explicit ZSearch(Enumerator& e) : m_enumerator(&e), m_typeFilter(SearchResultItem::Unknown) {}
+
+        void SetTypeFilter(SearchResultItem::Type type)
+        {
+            m_typeFilter = type;
+        }
 
         Results operator()();
 
     private:
         Enumerator* m_enumerator;
+        SearchResultItem::Type m_typeFilter;
 	};
 }
