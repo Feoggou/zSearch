@@ -40,44 +40,23 @@
 #include <string>
 
 #include "zLib/zLib.h"
-#include "zLib/Enumerator.h"
 
 namespace Zen
 {
-	struct ZSEARCH_API SearchResultItem
+    struct ZSEARCH_API ResultItem
 	{
-        enum Type { Unknown = 0, File, Directory };
-
-        SearchResultItem() = default;
-        SearchResultItem(const Enumerator::Item& item)
-            : fullName(item.name)
-            , type(Type(item.type))
-        {}
-
         /* fullName: default value - a) if result = not found / invalid; b) if filter, means 'any' */
         std::tstring fullName;
-        /* type: default value (Unknown) - a) if result = not found / invalid; b) if filter, means 'any' */
-        Type type;
 	};
 
 	class ZSEARCH_API ZSearch
 	{
 	public:
-		typedef std::vector<SearchResultItem> Results;
+        typedef std::vector<ResultItem> Results;
 
     public:
-        ZSearch() : m_enumerator(nullptr), m_typeFilter(SearchResultItem::Unknown) {}
-        explicit ZSearch(Enumerator& e) : m_enumerator(&e), m_typeFilter(SearchResultItem::Unknown) {}
-
-        void SetTypeFilter(SearchResultItem::Type type)
-        {
-            m_typeFilter = type;
-        }
+        ZSearch() = default;
 
         Results operator()();
-
-    private:
-        Enumerator* m_enumerator;
-        SearchResultItem::Type m_typeFilter;
 	};
 }
