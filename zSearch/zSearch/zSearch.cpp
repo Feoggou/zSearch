@@ -20,12 +20,34 @@
 
 #include <iostream>
 #include <memory>
+#include <cstring>
+#include <errno.h>
+
+#include <dirent.h>
 
 using namespace Zen;
 
 ZSearch::Results ZSearch::operator()()
 {
 	Results r;
+
+    DIR* dirStream = opendir(m_dirPath.c_str());
+    if (!dirStream) {
+        std::cerr << "opendir: " << strerror(errno) << std::endl;
+        return r;
+    }
+
+    while (dirent* dirEntry = readdir(dirStream)) {
+        ResultItem item;
+        item.fullName = dirEntry->d_name;
+
+        r.push_back(item);
+    }
+
+    if (-1 == closedir(dirStream)) {
+        std::cerr << "closedir: " <<  strerror(errno) << std::endl;
+        return r;
+    }
 
 	return r;
 }

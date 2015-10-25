@@ -39,7 +39,7 @@ std::tstring createUniqueName(const std::tstring& base = T("uniqueName_"))
 
 TEST(CaseSearch, NonExistingDir)
 {
-    ZSearch search;
+    ZSearch search("");
     ZSearch::Results results = search();
     ASSERT_EQ(results.size(), 0);
 }
