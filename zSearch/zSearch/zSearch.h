@@ -55,7 +55,7 @@ namespace Zen
         typedef std::vector<ResultItem> Results;
 
     public:
-        ZSearch() : m_dirPath(".") {}
+        ZSearch() : m_dirPath(T(".")) {}
         explicit ZSearch(const std::tstring& path) : m_dirPath(path) {}
 
         Results operator()();

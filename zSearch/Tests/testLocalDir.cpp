@@ -39,7 +39,7 @@ std::tstring createUniqueName(const std::tstring& base = T("uniqueName_"))
 
 TEST(CaseSearch, NonExistingDir)
 {
-    ZSearch search("");
+    ZSearch search(T(""));
     ZSearch::Results results = search();
     ASSERT_EQ(results.size(), 0);
 }
@@ -53,7 +53,7 @@ TEST(TestLocalDir, FindOneItem_InCurrentDirectory)
     ASSERT_EQ(results.size(), std::size_t(1));
 
     const auto& result = results.back();
-    ASSERT_EQ(result.fullName, std::tstring("OneItem"));
+    ASSERT_EQ(result.fullName, std::tstring(T("OneItem")));
 }
 
 int main(int argc, char* argv[])

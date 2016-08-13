@@ -23,9 +23,10 @@
 #include <cstring>
 #include <errno.h>
 
-#include <dirent.h>
-
 using namespace Zen;
+
+#ifdef __linux__
+#include <dirent.h>
 
 ZSearch::Results ZSearch::operator()()
 {
@@ -51,3 +52,12 @@ ZSearch::Results ZSearch::operator()()
 
 	return r;
 }
+
+#else
+
+ZSearch::Results ZSearch::operator()()
+{
+	return ZSearch::Results{};
+}
+
+#endif
