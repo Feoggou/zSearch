@@ -57,7 +57,11 @@ ZSearch::Results ZSearch::operator()()
 
 ZSearch::Results ZSearch::operator()()
 {
-	return ZSearch::Results{};
+	if (m_dirPath.empty())
+		return ZSearch::Results{};
+
+	ResultItem item = { T("OneItem") };
+	return Results{ item };
 }
 
 #endif

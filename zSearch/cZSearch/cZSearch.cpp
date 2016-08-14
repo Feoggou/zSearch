@@ -17,8 +17,12 @@
 #include "zSearch/zSearch.h"
 #include "zLib/zLib.h"
 
+#include <iostream>
+
 int main(int argc, tchar* argv[])
 {
+	std::cout << "IN MAIN!" << std::endl;
+
 #if 0
 	Zen::ZSearch search;
 	Zen::ZSearch::Results results = search(T("folder"));
