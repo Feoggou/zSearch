@@ -17,12 +17,13 @@
 #include "gmock/gmock.h"
 #include "zSearch/zSearch.h"
 
-#include <locale>
-#include <codecvt>
-
 #define COUT std::wcout
 
 #ifdef WIN32
+
+#include <locale>
+#include <codecvt>
+
 namespace std {
 inline std::ostream& operator<< (std::ostream& os, const std::wstring& str)
 {

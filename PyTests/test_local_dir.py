@@ -7,9 +7,11 @@ import unittest
 
 # TODO: Use cmake to generate the BIN path
 BIN_DIR = os.path.abspath("../../zSearch-build/bin")
-APP_NAME = "cZSearch.exe" if platform.system() == "Windows" else "cZSearch"
+APP_NAME = "Debug/cZSearch.exe" if platform.system() == "Windows" else "cZSearch"
 APP_PATH = os.path.join(BIN_DIR, APP_NAME)
 TEST_DATA = "TestData"
+
+print("APP_PATH=", APP_PATH)
 
 
 class TestLocalDir(unittest.TestCase):

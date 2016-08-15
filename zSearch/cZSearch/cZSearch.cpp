@@ -16,11 +16,25 @@
 
 #include "zSearch/zSearch.h"
 #include "zLib/zLib.h"
+#include "zLib/FSException.h"
 
 #include <iostream>
 
 #ifdef WIN32
+
+#include <locale>
+#include <codecvt>
+
 #define COUT std::wcout
+
+namespace std {
+    inline std::ostream& operator<< (std::ostream& os, const std::wstring& str)
+    {
+        os << std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t>().to_bytes(str);
+        return os;
+    }
+}
+
 #else
 #define COUT std::cout
 #endif
@@ -29,10 +43,20 @@ int main(int argc, tchar* argv[])
 {
     Zen::Finder finder;
     Zen::ZSearch search{finder};
-    Zen::Results results = search();
+
+    Zen::Results results;
+
+    try
+    {
+        results = search();
+    }
+    catch (FSException& e)
+    {
+        std::cout << "Exception: " << e.Code() << std::endl;
+    }
 
     for (const auto& item : results)
-        COUT << item.fullName << std::endl;
+        std::cout << item.fullName << std::endl;
 
     std::cout << "Items found: " << results.size() << std::endl;
 
