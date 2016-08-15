@@ -1,3 +1,5 @@
 [submodule "zLib"]
 	path = zLib
 	url = https://github.com/Feoggou/zLib
+[zLib]
+	zLib = master

@@ -22,7 +22,7 @@
 int main(int argc, tchar* argv[])
 {
 	Zen::ZSearch search;
-    Zen::ZSearch::Results results = search();
+    Zen::Results results = search();
 
     for (const auto& item : results)
         std::cout << item.fullName << std::endl;

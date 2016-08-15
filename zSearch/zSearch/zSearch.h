@@ -36,31 +36,17 @@
 #define ZSEARCH_API
 #endif //PROJ_LINK_SHARED
 
-#include <vector>
-#include <string>
-
 #include "zLib/zLib.h"
+#include "zLib/Find.h"
 
 namespace Zen
 {
-    struct ZSEARCH_API ResultItem
-	{
-        /* fullName: default value - a) if result = not found / invalid; b) if filter, means 'any' */
-        std::tstring fullName;
-	};
-
 	class ZSEARCH_API ZSearch
 	{
-	public:
-        typedef std::vector<ResultItem> Results;
-
     public:
-        ZSearch() : m_dirPath(T(".")) {}
-        explicit ZSearch(const std::tstring& path) : m_dirPath(path) {}
+        ZSearch() = default;
+        explicit ZSearch(const std::tstring&) {}
 
         Results operator()();
-
-    private:
-        std::tstring m_dirPath;
 	};
 }

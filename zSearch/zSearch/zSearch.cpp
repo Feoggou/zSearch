@@ -16,53 +16,8 @@
 
 #include "zSearch.h"
 
-#include "zLib/Dir.h"
-
-#include <iostream>
-#include <memory>
-#include <cstring>
-#include <errno.h>
-
-using namespace Zen;
-
-#ifdef __linux__
-#include <dirent.h>
-
-ZSearch::Results ZSearch::operator()()
+Zen::Results Zen::ZSearch::operator()()
 {
-	Results r;
-
-    DIR* dirStream = opendir(m_dirPath.c_str());
-    if (!dirStream) {
-        std::cerr << "opendir: " << strerror(errno) << std::endl;
-        return r;
-    }
-
-    while (dirent* dirEntry = readdir(dirStream)) {
-        ResultItem item;
-        item.fullName = dirEntry->d_name;
-
-        if (item.fullName != "." && item.fullName != "..")
-            r.push_back(item);
-    }
-
-    if (-1 == closedir(dirStream)) {
-        std::cerr << "closedir: " <<  strerror(errno) << std::endl;
-        return r;
-    }
-
-	return r;
+    Find finder;
+    return finder();
 }
-
-#else
-
-ZSearch::Results ZSearch::operator()()
-{
-	if (m_dirPath.empty())
-		return ZSearch::Results{};
-
-	ResultItem item = { T("OneItem") };
-	return Results{ item };
-}
-
-#endif
