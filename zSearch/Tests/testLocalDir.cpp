@@ -21,8 +21,6 @@
 #include "zLib/Dir.h"
 #include "zSearch/zSearch.h"
 
-using namespace Zen;
-
 //TODO: we already have this function in zLib_testDir. We ought to make a lib for test utilities.
 std::tstring createUniqueName(const std::tstring& base = T("uniqueName_"))
 {
@@ -37,24 +35,77 @@ std::tstring createUniqueName(const std::tstring& base = T("uniqueName_"))
 	return uniqueName;
 }
 
-TEST(CaseSearch, NonExistingDir)
+
+namespace Zen {
+inline std::ostream& operator<< (std::ostream& os, const ResultItem& result)
 {
-    ZSearch search(T(""));
-    Results results = search();
+    os << "{ name = '" << result.fullName << "'; }, ";
+    return os;
+}
+
+inline std::ostream& operator<< (std::ostream& os, const Results& results)
+{
+    os << std::to_string(results.size()) << " = {";
+
+    for (const auto& item: results)
+        os << item;
+
+    os << "}";
+
+    return os;
+}
+
+inline bool operator==(const Results& lhs, const Results& rhs)
+{
+    if (lhs.size() != rhs.size())
+        return false;
+
+    for (int i = 0; i < lhs.size(); ++i)
+    {
+        std::cout << "left = " << lhs[i].fullName << "; right = " << rhs[i].fullName << std::endl;
+        if (lhs[i].fullName != rhs[i].fullName)
+            return false;
+    }
+
+    return true;
+}
+}
+
+
+class MockFind : public Zen::IFind
+{
+public:
+    MOCK_METHOD0(DoFind, Zen::Results());
+
+    Zen::Results operator()() override { return DoFind(); }
+};
+
+
+TEST(CaseSearch, EmptyDir)
+{
+    MockFind finder;
+    EXPECT_CALL(finder, DoFind())
+            .WillOnce(::testing::Return(Zen::Results{}));
+
+    Zen::ZSearch search{finder};
+    Zen::Results results = search();
+
     ASSERT_EQ(results.size(), 0);
 }
 
 TEST(TestLocalDir, FindOneItem_InCurrentDirectory)
 {
-    //no options - using default ones.
-    ZSearch search;
-    Results results = search();
+    Zen::Results expected = { { std::tstring(T("OneItem")) } };
+    MockFind finder;
+    EXPECT_CALL(finder, DoFind())
+            .WillOnce(::testing::Return(expected));
 
-    ASSERT_EQ(results.size(), std::size_t(1));
+    Zen::ZSearch search{finder};
+    Zen::Results actual = search();
 
-    const auto& result = results.back();
-    ASSERT_EQ(result.fullName, std::tstring(T("OneItem")));
+    ASSERT_EQ(actual, expected);
 }
+
 
 int main(int argc, char* argv[])
 {

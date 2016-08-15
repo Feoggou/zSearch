@@ -21,7 +21,8 @@
 
 int main(int argc, tchar* argv[])
 {
-	Zen::ZSearch search;
+    Zen::Find finder;
+    Zen::ZSearch search{finder};
     Zen::Results results = search();
 
     for (const auto& item : results)

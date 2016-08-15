@@ -14,10 +14,14 @@
 *  limitations under the License.
 */
 
+#include <cassert>
 #include "zSearch.h"
+
+Zen::ZSearch::ZSearch(IFind& impl)
+    : m_impl(impl)
+{}
 
 Zen::Results Zen::ZSearch::operator()()
 {
-    Find finder;
-    return finder();
+    return m_impl();
 }

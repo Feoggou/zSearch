@@ -41,12 +41,15 @@
 
 namespace Zen
 {
-	class ZSEARCH_API ZSearch
+    class ZSEARCH_API ZSearch final
 	{
     public:
-        ZSearch() = default;
-        explicit ZSearch(const std::tstring&) {}
+        ZSearch(IFind& impl);
+
+        ZSearch(const ZSearch&) = delete;
 
         Results operator()();
+    private:
+        IFind& m_impl;
 	};
 }
