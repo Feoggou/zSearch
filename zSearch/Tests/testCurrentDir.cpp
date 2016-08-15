@@ -17,8 +17,6 @@
 #include "gmock/gmock.h"
 #include "zSearch/zSearch.h"
 
-#define COUT std::wcout
-
 #ifdef WIN32
 
 #include <locale>
@@ -31,6 +29,11 @@ inline std::ostream& operator<< (std::ostream& os, const std::wstring& str)
     return os;
 }
 }
+
+#define COUT std::wcout
+#else
+
+#define COUT std::cout
 #endif
 
 namespace Zen {
