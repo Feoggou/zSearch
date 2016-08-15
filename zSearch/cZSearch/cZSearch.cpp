@@ -21,13 +21,13 @@
 
 int main(int argc, tchar* argv[])
 {
-	std::cout << "IN MAIN!" << std::endl;
-
-#if 0
 	Zen::ZSearch search;
-	Zen::ZSearch::Results results = search(T("folder"));
+    Zen::ZSearch::Results results = search();
 
-	return results.size();
-#endif
+    for (const auto& item : results)
+        std::cout << item.fullName << std::endl;
+
+    std::cout << "Items found: " << results.size() << std::endl;
+
     return 0;
 }

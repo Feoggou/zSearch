@@ -42,7 +42,8 @@ ZSearch::Results ZSearch::operator()()
         ResultItem item;
         item.fullName = dirEntry->d_name;
 
-        r.push_back(item);
+        if (item.fullName != "." && item.fullName != "..")
+            r.push_back(item);
     }
 
     if (-1 == closedir(dirStream)) {
