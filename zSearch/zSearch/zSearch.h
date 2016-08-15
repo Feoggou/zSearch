@@ -37,19 +37,19 @@
 #endif //PROJ_LINK_SHARED
 
 #include "zLib/zLib.h"
-#include "zLib/Find.h"
+#include "zLib/Finder.h"
 
 namespace Zen
 {
     class ZSEARCH_API ZSearch final
 	{
     public:
-        ZSearch(IFind& impl);
+        ZSearch(IFinder& impl);
 
         ZSearch(const ZSearch&) = delete;
 
         Results operator()();
     private:
-        IFind& m_impl;
+        IFinder& m_impl;
 	};
 }

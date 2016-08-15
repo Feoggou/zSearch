@@ -17,7 +17,7 @@
 #include <cassert>
 #include "zSearch.h"
 
-Zen::ZSearch::ZSearch(IFind& impl)
+Zen::ZSearch::ZSearch(IFinder& impl)
     : m_impl(impl)
 {}
 

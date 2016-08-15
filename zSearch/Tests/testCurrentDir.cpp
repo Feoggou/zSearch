@@ -14,26 +14,8 @@
 *  limitations under the License.
 */
 
-#include <chrono>
-
 #include "gmock/gmock.h"
-#include "zLib/zLib.h"
-#include "zLib/Dir.h"
 #include "zSearch/zSearch.h"
-
-//TODO: we already have this function in zLib_testDir. We ought to make a lib for test utilities.
-std::tstring createUniqueName(const std::tstring& base = T("uniqueName_"))
-{
-	std::tstring uniqueName = base;
-
-	auto now = std::chrono::steady_clock::now();
-	auto rep = now.time_since_epoch().count();
-	std::wstring ws;
-
-	uniqueName += ZEN_TO_TSTRING(rep);
-
-	return uniqueName;
-}
 
 
 namespace Zen {
@@ -72,7 +54,7 @@ inline bool operator==(const Results& lhs, const Results& rhs)
 }
 
 
-class MockFind : public Zen::IFind
+class MockFind : public Zen::IFinder
 {
 public:
     MOCK_METHOD0(DoFind, Zen::Results());
@@ -93,7 +75,7 @@ TEST(CaseSearch, EmptyDir)
     ASSERT_EQ(results.size(), 0);
 }
 
-TEST(TestLocalDir, FindOneItem_InCurrentDirectory)
+TEST(TestCurrentDir, FindOneItem)
 {
     Zen::Results expected = { { std::tstring(T("OneItem")) } };
     MockFind finder;

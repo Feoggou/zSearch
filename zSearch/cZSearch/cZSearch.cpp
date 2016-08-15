@@ -21,7 +21,7 @@
 
 int main(int argc, tchar* argv[])
 {
-    Zen::Find finder;
+    Zen::Finder finder;
     Zen::ZSearch search{finder};
     Zen::Results results = search();
 
