@@ -17,6 +17,20 @@
 #include "gmock/gmock.h"
 #include "zSearch/zSearch.h"
 
+#include <locale>
+#include <codecvt>
+
+#define COUT std::wcout
+
+#ifdef WIN32
+namespace std {
+inline std::ostream& operator<< (std::ostream& os, const std::wstring& str)
+{
+    os << std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t>().to_bytes(str);
+    return os;
+}
+}
+#endif
 
 namespace Zen {
 inline std::ostream& operator<< (std::ostream& os, const ResultItem& result)
@@ -44,7 +58,7 @@ inline bool operator==(const Results& lhs, const Results& rhs)
 
     for (int i = 0; i < lhs.size(); ++i)
     {
-        std::cout << "left = " << lhs[i].fullName << "; right = " << rhs[i].fullName << std::endl;
+        COUT << T("left = ") << lhs[i].fullName << T("; right = ") << rhs[i].fullName << std::endl;
         if (lhs[i].fullName != rhs[i].fullName)
             return false;
     }

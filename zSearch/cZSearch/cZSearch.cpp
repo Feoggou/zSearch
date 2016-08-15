@@ -19,6 +19,12 @@
 
 #include <iostream>
 
+#ifdef WIN32
+#define COUT std::wcout
+#else
+#define COUT std::cout
+#endif
+
 int main(int argc, tchar* argv[])
 {
     Zen::Finder finder;
@@ -26,7 +32,7 @@ int main(int argc, tchar* argv[])
     Zen::Results results = search();
 
     for (const auto& item : results)
-        std::cout << item.fullName << std::endl;
+        COUT << item.fullName << std::endl;
 
     std::cout << "Items found: " << results.size() << std::endl;
 
