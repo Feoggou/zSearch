@@ -1,0 +1,4 @@
+[submodule "zLib"]
+	path = zLib
+	url = git@github.com:Feoggou/zLib.git
+	branch = master
